@@ -36,77 +36,74 @@ class LeaveCounterTest {
     void countWorkingDays() {
 
         //0
-        tmpIdx = 0;
         tempStartDate = LocalDate.of(2020, 2, 7);
         tempEndDate = LocalDate.of(2020, 2, 10);
         expectedNoOfDays = 2;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //1
-        tmpIdx = 1;
         tempStartDate = LocalDate.of(2020, 2, 8);
         tempEndDate = LocalDate.of(2020, 2, 10);
         expectedNoOfDays = 1;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //2
-        tmpIdx = 2;
         tempStartDate = LocalDate.of(2020, 2, 8);
         tempEndDate = LocalDate.of(2020, 2, 9);
         expectedNoOfDays = 0;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //3
-        tmpIdx = 3;
         tempStartDate = LocalDate.of(2020, 2, 7);
         tempEndDate = LocalDate.of(2020, 2, 9);
         expectedNoOfDays = 1;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
-        //4 - 2021 nie powinno zliczyc
-        tmpIdx = 4;
+        //4
         tempStartDate = LocalDate.of(2021, 2, 7);
         tempEndDate = LocalDate.of(2021, 2, 10);
         expectedNoOfDays = 0;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //5
-        tmpIdx = 5;
         tempStartDate = LocalDate.of(2020, 1, 25);
         tempEndDate = LocalDate.of(2020, 2, 10);
         expectedNoOfDays = 6;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //6
-        tmpIdx = 6;
         tempStartDate = LocalDate.of(2020, 2, 25);
         tempEndDate = LocalDate.of(2020, 3, 10);
         expectedNoOfDays = 4;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //7
-        tmpIdx = 7;
         tempStartDate = LocalDate.of(2020, 2, 5);
         tempEndDate = LocalDate.of(2020, 2, 27);
         expectedNoOfDays = 17;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
         //8
-        tmpIdx = 8;
         tempStartDate = LocalDate.of(2020, 1, 5);
         tempEndDate = LocalDate.of(2020, 3, 27);
         expectedNoOfDays = 20;
-        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, tmpIdx, expectedNoOfDays);
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
+        //9
+        tempStartDate = LocalDate.of(2019, 1, 5);
+        tempEndDate = LocalDate.of(2019, 3, 27);
+        expectedNoOfDays = 0;
+        subtestCountWorkingDaysForSingleLeave(tempStartDate, tempEndDate, expectedNoOfDays);
 
-        System.out.println(leaveCounter.countWorkingDays(leaveBookings, month, year));
+        expectedNoOfDays = 51;
+        assertEquals(expectedNoOfDays, leaveCounter.countWorkingDays(leaveBookings, month, year));
     }
 
-    private void subtestCountWorkingDaysForSingleLeave(LocalDate tempStartDate, LocalDate tempEndDate, int tmpIdx, int expectedNoOfDays) {
+    private void subtestCountWorkingDaysForSingleLeave(LocalDate tempStartDate, LocalDate tempEndDate, int expectedNoOfDays) {
         leaveBookings.add(new LeaveBooking(tempStartDate, tempEndDate));
-        assertEquals(leaveBookings.get(tmpIdx).getStartDate(), tempStartDate);
-        assertEquals(leaveBookings.get(tmpIdx).getEndDate(), tempEndDate);
-        assertEquals(expectedNoOfDays, leaveCounter.countWorkingDaysForSingleLeave(monthBegin, monthEnd, leaveBookings.get(tmpIdx)));
+        assertEquals(leaveBookings.get(leaveBookings.size() - 1).getStartDate(), tempStartDate);
+        assertEquals(leaveBookings.get(leaveBookings.size() - 1).getEndDate(), tempEndDate);
+        assertEquals(expectedNoOfDays, leaveCounter.countWorkingDaysForSingleLeave(monthBegin, monthEnd, leaveBookings.get(leaveBookings.size() - 1)));
     }
 
     @Test
